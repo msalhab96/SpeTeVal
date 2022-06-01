@@ -1,4 +1,6 @@
+from dataclasses import dataclass
 from typing import (
+    Tuple,
     Union,
     List
 )
@@ -17,3 +19,16 @@ AudioContent = Union[
     Sterio,
     ndarray
 ]
+DataItem = List[Tuple[FilePath, str]]
+
+
+@dataclass
+class ValidatorsNames:
+    FileExistanceVal = 'FileExistanceVal'
+    LoadbilityVal = 'LoadbilityVal'
+    ChannelsVal = 'ChannelsVal'
+    SampleRateVal = 'SampleRateVal'
+    ExtensionVal = 'ExtensionVal'
+    TextToSpeechVal = 'TextToSpeechVal'
+    TextToFrameVal = 'TextToFrameVal'
+    LengthVal = 'LengthVal'
