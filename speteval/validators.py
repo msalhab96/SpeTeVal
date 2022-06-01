@@ -1,7 +1,7 @@
 from typing import Set, Union
 from .exceptions import FileNotExist, InvalidRange
 from .interfaces import IValidator
-from .constants import FilePath, AudioContent
+from .constants import FilePath, AudioContent, ValidatorsNames
 from .utils import (
     get_file_extension,
     get_max_dim,
@@ -16,16 +16,20 @@ import os
 class FileExistanceVal(IValidator):
     """Validates whether the file is exist or not
     """
+    name = ValidatorsNames.FileExistanceVal
+
     def __init__(self, *args, **kwargs) -> None:
         super().__init__()
 
-    def validate(self, file_path: FilePath, *args, **kwargs) -> bool:
-        return os.path.exists(file_path)
+    def validate(self, audio_path: FilePath, *args, **kwargs) -> bool:
+        return os.path.exists(audio_path)
 
 
 class LoadbilityVal(IValidator):
     """Validates whether the file is readable/corrupted or not
     """
+    name = ValidatorsNames.LoadbilityVal
+
     def __init__(self, *args, **kwargs) -> None:
         super().__init__()
 
@@ -50,6 +54,8 @@ class ChannelsVal(IValidator):
         min_length (int): The min length of the audio content
         this is used when the array/Tensor passed in 1d (MONO), Default 100
     """
+    name = ValidatorsNames.ChannelsVal
+
     def __init__(
             self, n_channels: int, min_length=100, *args, **kwargs
             ) -> None:
@@ -70,6 +76,8 @@ class SampleRateVal(IValidator):
     Args:
         target_sr (int): The target sampling rate to copmare with.
     """
+    name = ValidatorsNames.SampleRateVal
+
     def __init__(self, target_sr: int, *args, **kwargs) -> None:
         self.target_sr = target_sr
 
@@ -84,6 +92,8 @@ class ExtensionVal(IValidator):
         valid_exts (Set[str]): The set of valid extensions without dot (i.e
         wav, mp3 ..etc)
     """
+    name = ValidatorsNames.ExtensionVal
+
     def __init__(self, valid_exts: Set[str], *args, **kwargs) -> None:
         if isinstance(valid_exts, set) is False:
             self.valid_exts = set(valid_exts)
@@ -109,6 +119,7 @@ class TextToSpeechVal(IValidator):
     """
     _min_val = 0
     _max_val = 1
+    name = ValidatorsNames.TextToSpeechVal
 
     def __init__(
             self, min_ratio: float, max_ratio: float, *args, **kwargs
@@ -141,6 +152,8 @@ class TextToFrameVal(IValidator):
         ratio should be less than, the value should be
         between 0 and 1.
     """
+    name = ValidatorsNames.TextToFrameVal
+
     def __init__(
             self, hop_length: int, threshold=1.0, *args, **kwargs
             ) -> None:
@@ -163,6 +176,8 @@ class LengthVal(IValidator):
         min_len (int): The minimum length that the input should be
         greater than.
     """
+    name = ValidatorsNames.LengthVal
+
     def __init__(
             self, max_len: int, min_len: int, *args, **kwargs
             ) -> None:
