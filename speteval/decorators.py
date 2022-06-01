@@ -1,4 +1,4 @@
-from exceptions import FileNotExist
+from .exceptions import FileNotExist
 from functools import wraps
 import os
 
