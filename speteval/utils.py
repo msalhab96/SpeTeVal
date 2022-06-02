@@ -17,11 +17,10 @@ def load_audio(audio_path: FilePath) -> Tuple[Tensor, int]:
 
 def _get_dim(content: AudioContent, operation: Callable) -> int:
     length = len(content)
-    content = content[0]
     while True:
         try:
-            length = operation(length, len(content))
             content = content[0]
+            length = operation(length, len(content))
         except Exception:
             break
     return length
@@ -48,13 +47,15 @@ def get_text_to_speech_ratio(
 
 def get_n_frames(content: AudioContent, hop_length: int) -> int:
     n_samples = get_max_dim(content)
+    hop_length = max(1, hop_length)
     return int(n_samples) // hop_length
 
 
 def get_text_to_frame_ratio(
-        text: str, content: AudioContent, hop_length: int
+        text: str, content: AudioContent, hop_length: int, eps=1e-9
         ) -> float:
-    return len(text) / get_n_frames(content, hop_length)
+
+    return len(text) / max(eps, get_n_frames(content, hop_length))
 
 
 def get_std(values: List[Union[float, int]]) -> float:
