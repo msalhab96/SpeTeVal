@@ -1,7 +1,9 @@
 from typing import Callable, List, Tuple, Union
 from .constants import FilePath, AudioContent
 from .decorators import check_file_existance
+from pandas import DataFrame
 from torch import Tensor
+import pandas as pd
 import numpy as np
 import torchaudio
 import os
@@ -61,3 +63,11 @@ def get_std(values: List[Union[float, int]]) -> float:
 
 def get_mean(values: List[Union[float, int]]) -> float:
     return np.mean(values)
+
+
+def load_csv(file_path: FilePath, *args, **kwargs) -> DataFrame:
+    return pd.read_csv(file_path, *args, **kwargs)
+
+
+def export_csv(df: DataFrame, file_path: FilePath, *args, **kwargs) -> None:
+    df.to_csv(file_path, *args, **kwargs)
