@@ -20,8 +20,8 @@ def _get_dim(content: AudioContent, operation: Callable) -> int:
     content = content[0]
     while True:
         try:
-            content = content[0]
             length = operation(length, len(content))
+            content = content[0]
         except Exception:
             break
     return length
